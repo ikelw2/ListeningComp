@@ -52,6 +52,7 @@ if (args.Length > 0 && args[0] == "--import")
 
 //app.UseAuthorization();
 
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();

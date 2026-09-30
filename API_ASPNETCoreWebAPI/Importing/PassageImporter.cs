@@ -69,6 +69,10 @@ public sealed class PassageImporter
                     throw new InvalidDataException("The JSON contains null.");
 
                 passage = Map(input, language, importKey);
+
+                // assign filename to mp3 mediaurl value...
+                var mp3Filename = Path.GetFileNameWithoutExtension(file) + ".mp3";
+                passage.MediaUrl = "/audio/" + Uri.EscapeDataString(mp3Filename);
             }
             catch (Exception ex) when (
                 ex is JsonException ||

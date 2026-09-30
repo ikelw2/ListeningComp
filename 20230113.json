@@ -1,0 +1,42 @@
+{
+	"sourcelink" : "https://ru.euronews.com/2023/01/13/ru-france-no-jail-for-the-hunter-killer",
+	"questions" : [
+		[
+			"Select the most accurate statement.",
+			"The defendant was sentenced to two years prison and a lifetime ban on hunting",
+			"The defendant does not plan to appeal the court's decision",
+			"The prosecution demanded the court sentence the defendent to two years in prison",
+			"The prosecution does not plan to appeal the court's decision",
+			"D"
+		],
+		[
+			"Select the most accurate statement.",
+			"The French government encourages responsible hunting",
+			"The French government discourages irresponsible hunting",
+			"The French government is responding to demands from activitists",
+			"The French government has witnessed an increase in hunting accidents",
+			"A"
+		]
+	],
+	"transcript" : [
+		"Два года лишения свободы условно и пожизненный запрет на охоту – такое решение вынес суд на юге Франции по делу о гибели 25-летнего Моргана Кина. 2 года назад молодой человек, который рубил дрова на своём участке, получил смертельное пулевое ранение. В этом районе шла загонная охота на кабана.",
+		"Обвиняемый в непредумышленном убийстве заявил в ходе процесса, что перепутал свою случайную жертву с диким зверем.",
+		"Вполне возможно, он не представляет опасности для общества, но мне кажется, суд должен был послать сигнал – ведь его действия привели к смерти человека. И ещё: наша сельская глубинка не должна быть отданы на откуп охотникам.",
+		"Обвинение требовало для стрелявшего полгода тюрьмы. Адвокат брата погибшего не планирует обжаловать решение суда: по его словам, для французской судебной системы отсутствие реального срока для охотника неудивительно, а прогрессом можно считать тот факт, что условное наказание коснулось и организатора облавы, у него также отобрали охотничью лицензию сроком на 5 лет.",
+		"За 20 лет число несчастных случаев на охоте сократилось в пять раз. Это означает, что мы осознали проблему и проделали большую работу. Кто ещё может похвастаться, что добился схожих результатов в области безопасности?",
+		"На этой неделе французское правительство отказалось запретить охоту по воскресеньям и во время школьных каникул, несмотря на призывы эко-активистов и онлайн-петиции ассоциаций пострадавших. Вместо этого охотникам предлагается регистрироваться в мобильном приложении.",
+		"На законодательном уровне будет введено новое правонарушение – охота в состоянии алкогольного или наркотического опьянения.",
+		"За года президентства Эммануэля Макрона стоимость разрешения на охоту сократилось вдвое – с 400 до 200 евро."
+	],
+	"translation" : [
+		"Two years of probation and a life ban on hunting - such a decision was made by a court in the south of France in the case of the death of 25-year-old Morgan Keane. 2 years ago, a young man who was chopping wood on his plot received a fatal bullet wound. In this area, driven hunting for wild boar was going on.",
+		"Accused of manslaughter (unintended killing), [The defendant] said during the process that he confused his random victim with a wild animal.",
+		"It is quite possible that he does not pose a danger to society, but it seems to me that the court should have sent a signal - after all, his actions led to the death of a person. And one more thing: our rural hinterland should not be farmed out to hunters.",
+		"The prosecution demanded six months in prison for the shooter. The lawyer of the brother of the deceased does not plan to appeal the court’s decision: according to him, the lack of a real term for the hunter is not surprising for the French judicial system, and the fact that the organizer of the raid also received a suspended sentence can be considered progress, he was also deprived of a hunting license for a period of 5 years.",
+		"For 20 years, the number of hunting accidents has decreased by five times. This means that we have recognized the problem and have done a great job. Who else can boast that they have achieved similar results in the field of safety?",
+		"This week, the French government refused to ban hunting on Sundays and during school holidays, despite calls from eco-activists and online petitions from associations of victims. Instead, hunters are encouraged to register on the mobile app.",
+		"A new offense will be introduced at the legislative level - hunting under the influence of alcohol or drugs.",
+		"During the years of Emmanuel Macron's presidency, the cost of a hunting permit has been halved - from 400 to 200 euros."
+	]
+}
+

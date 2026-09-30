@@ -1,0 +1,43 @@
+{
+	"sourcelink" :  [
+					"https://www.youtube.com/watch?v=lOHKv8Vo4w0",
+					"https://ru.euronews.com/2023/01/27/meduza-is-undesirable-in-russia"
+					],
+	"questions" : [
+		[
+			"What justification did Russian authorities give for labeling Meduza publication 'undesirable'?",
+			"The organization is no longer granted the right to free speech in the territory",
+			"The organization poses a threat to the foundations of constitutional order",
+			"The organization was added to a list of foreign media that act as foreign agents",
+			"The organization published offensive material from outside Russia's territory",
+			"B"
+		],
+		[
+			"Based on this report, what risk do Meduza readers face?",
+			"Persecution from the authorities",
+			"Deportation from the country",
+			"Termination from their jobs",
+			"Loss of their citizenship",
+			"A"
+		]
+	],
+	"transcript" : [
+		"Власти решили, что свободы слова на этой территории больше не будет, так Галина Тимченко, одна из основателей Meduza и генеральный директор, отреагировала на решение о признании деятельности выходящего в Риге интернет-издания нежелательной в РФ.",
+		"В обнародованном накануне заявлении Генеральная прокуратура уточняет, что решение по иностранной неправительственной организации Medusa Project принято, поскольку та представляет угрозу основам конституционного строя и безопасности.",
+		"Россия совершенно явно за последние полгода развернулась в сторону милитаризации, в сторону закрытия страны, в сторону идеологии о враждебном мире вокруг. Пока у меня ощущение, что мы находимся в каменном мешке и как выбраться оттуда, я не знаю.",
+		"Medusa, созданная бывшим главным редактором Lenta.ru, с 2014 года обосновалась в Риге, публикуя материалы на русском и английском языках. В апреле 2021-го Medusa Project была внесена Минюстом РФ в реестр иностранных СМИ, выполняющих функции иноагента.",
+		"Новый статус грозит читателям Медуза преследованием со стороны российских властей за сотрудничество в любых формах, финансирование, ссылки и репосты.",
+		"Ну очевидно, у неё есть стрингеры, есть источники относительно постоянные. Я думаю, что часть таких источников, стрингеров, сотрудников будет вынуждены перейти в другой режим работы, или покинуть страну для того, чтобы продолжать работу, или прекратить сотрудничество.",
+		"В Международной амнистии решение российских властей назвали трусливым шагом и ещё одним сокрушительным ударом по свободе СМИ в стране."
+	],
+	"translation" : [
+		"The authorities decided that there would be no more freedom of speech in this territory, so Galina Timchenko, one of the founders of Meduza and CEO, reacted to the decision to recognize the activities of an online publication published in Riga as undesirable in the Russian Federation.",
+		"In a statement issued the day before, the Prosecutor General's Office clarifies that the decision on the foreign non-governmental organization Medusa Project has been made because it poses a threat to the foundations of the constitutional order and security.",
+		"Over the past six months, Russia has clearly turned towards militarization, towards the closure of the country, towards the ideology of a hostile world around. For now, I have the feeling that we are in a stone bag and I don’t know how to get out of there.",
+		"Medusa, created by the former editor-in-chief of Lenta.ru, has settled in Riga since 2014, publishing materials in Russian and English. In April 2021, the Medusa Project was entered by the Ministry of Justice of the Russian Federation into the register of foreign media that act as foreign agents.",
+		"The new status threatens readers of Meduza with persecution by the Russian authorities for cooperation in any form, funding, links and reposts.",
+		"Well, obviously, she has stringers, there are relatively permanent sources. I think that some of these sources, stringers, employees will be forced to switch to another mode of work, or leave the country in order to continue working, or stop working.",
+		"In Amnesty International, the decision of the Russian authorities was called a cowardly step and another crushing blow to media freedom in the country."
+	]
+}
+

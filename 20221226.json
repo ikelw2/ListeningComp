@@ -1,0 +1,54 @@
+{
+	"sourcelink" : "https://rus.lsm.lv/statja/novosti/proisshestvija/reportaj-dtp-s-tremja-pogibshimi-u-murjani.a484201/",
+	"questions" : [
+		[
+			"Select the most accurate statement.",
+			"Drivers were not intoxicated",
+			"Cars may have been speeding",
+			"The truck blew a tire",
+			"Visibility was limited",
+			"D"
+		],
+		[
+			"Select the most accurate statement.",
+			"The road remains closed until all vehicles are removed",
+			"Authorities know the road conditions at the time of the accident",
+			"This broadcast features comments made by eyewitnesses to the accident",
+			"Authorities have began a criminal case against the truck driver",
+			"B"
+		]
+	],
+	"transcript" : [
+		"На Валмиерском шоссе возле Мурьяни уже более суток перекрыто движение транспорта. Вчера вечером там произошло серьёзное ДТП. Грузовой автомобиль вылетел на встречную полосу движения, врезался в легковушку и в едущий за ним грузовик. В результате столкновения погибли все три водителя.",
+		"Авария произошла на трассе А3, на участке между Мурьяни поворотом на Суниши вчера около семнадцати часов. В это время уже темно. Сразу после аварии движение было перекрыто в обоих направлениях.",
+		"Сегодня днём движение на месте аварии было перекрыто. За моей спину находиться то что осталось, это одного из грузавиков, и там в канаве, его прицеп.",
+		"По предварительной информации, грузовой автомобиль, который двигался по направлению к Риге, выехал на встречную полосу и врезался в ехавший на встречу легковой автомобиль BMW, за которым ехал грузовой автомобиль. В результате произошло столкновение. К сожалению, на месте происшествия скончались все три водителя транспортных средств. На месте происшествия были два пострадавших, которых моментально доставили в больницу. Им пятнадцать и семнадцать лет. Они находились на заднем сиденье легкового автомобиля. На данный момент их состояние стабильное.",
+		"По факту произошедшего Госполиция начала уголовный процесс.",
+		"Я вчера вечером увидела, что всё заблокировано, что стоят машины. <b>Слышала, что много скорых едет</b>. Но больше ничего не знаю. Сегодня пошла туда посмотреть.",
+		"Я вчера читал в новостях. Когда смотрел фотографии, мне показалась, что эта третья машина, грузовая, которая ехала за BMW, была не латвийская.",
+		"Одна из версий – у вылетевшего на встречную полосу грузовика лопнула шина.",
+		"На данный момент мы не можем исключать и такое обстоятельство. Это первоначальная версия. Назначены все технические экспертизы, чтобы узнать все обстоятельства, действительно ли так произошло.",
+		"В предприятии Latvijas Valsts ceļi отметили, что в момент аварии <b>на шоссе было не скользко</b>.",
+		"Вчера вечером состояние государственных дорог в принципе по всему Видземе и конкретно на этом участке Валмиерского щоссе было <u>удовлетворительным</u>. Это показывают как наши <u>метеостанции</u>, так и данные <U>службы по содержанию дорог</u>.",
+		"По нашей информации, шоссе будет закрыто, возможно, до конца этого вечера. Примерно до восьми – девяти часов вечера. Поэтому прошу водителей выбирать другие объездные пути.",
+		"Полиция в ходе экспертизы проверят, не был ли кто-либо из водителей в состоянии алкогольного опьянения.",
+		"В полиции напоминают о безопасности на дороге и призывают быть ответственными – по их наблюдениям, многие водители до сих пор ездят на летней резине."
+	],
+	"translation" : [
+		"On the Valmiera highway near Muryani, traffic has been blocked for more than a day. There was a serious accident there last night. The truck swerved into the oncoming lane, crashed into a passenger car and a truck following it. All three drivers were killed in the collision.",
+		"The accident occurred on the A3 highway, on the section between Muryani turn to Sunishi yesterday at about seventeen hours. At this time it is already dark. Immediately after the accident, traffic was blocked in both directions.",
+		"This afternoon, traffic at the crash site was blocked. Behind me is what is left, this is one of the trucks, and there in the <u>ditch</u>, its <u>trailer</u>.",
+		"According to preliminary information, the truck, which was moving towards Riga, drove into the oncoming lane and crashed into a BMW headed towards it and the truck following it. The result was a collision. Unfortunately, all three drivers of the vehicles died at the scene. There were two injured at the scene, who were immediately taken to the hospital. They are fifteen and seventeen years old. They were in the back seat of a car. At the moment their condition is stable.",
+		"On the fact of the incident, the State Police launched a criminal trial.",
+		"Last night I saw that everything was blocked, that there were cars. <b>I heard a lot of ambulances going</b>. But I don't know anything else. Today I went there to look.",
+		"I read on the news yesterday. When I looked at the photos, it seemed to me that this third car, a truck that followed the BMW, was not Latvian.",
+		"One of the versions is that a tire burst on a truck that flew into the oncoming lane.",
+		"At the moment, we cannot rule out such a circumstance. This is the preliminary version. All technical expertise has been appointed to find out all the circumstances, whether this really happened.",
+		"The company Latvijas Valsts ceļi noted that <b>the road was not slippery</b> at the time of the accident.",
+		"Last night, the condition of state roads in general throughout Vidzeme and specifically on this section of the Valmiera Highway was <u>satisfactory</u>. This is shown both by our <u>weather stations</u> and by <u>road maintenance</u> data.",
+		"According to our information, the highway will be closed, possibly until the end of this evening. Until about eight or nine o'clock in the evening. Therefore, I ask drivers to choose other detours.",
+		"During the examination, the police will check whether any of the drivers was intoxicated.",
+		"The police remind about road safety and urge [drivers] to be responsible - according to their observations, many drivers still drive on summer tires."
+	]
+}
+
