@@ -1,4 +1,5 @@
 ﻿
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace API_ASPNETCoreWebAPI.Importing;
@@ -6,7 +7,8 @@ namespace API_ASPNETCoreWebAPI.Importing;
 public sealed class PassageJson
 {
     [JsonPropertyName("sourcelink")]
-    public string? SourceLink { get; set; }
+    // Accept string or array in JSON; parse at mapping time.
+    public JsonElement SourceLink { get; set; }
 
     [JsonPropertyName("transcript")]
     public List<string>? Transcript { get; set; }

@@ -17,6 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<PassageImporter>();
 
 var app = builder.Build();
+Console.WriteLine("Arguments: " + string.Join(" | ", args));
 
 // Usage: dotnet run -- --import "C:\QuizContent" ru
 if (args.Length > 0 && args[0] == "--import")

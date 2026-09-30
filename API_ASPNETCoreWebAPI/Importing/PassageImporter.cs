@@ -15,9 +15,9 @@ public sealed class PassageImporter
     }
 
     public async Task<(int Imported, int Skipped)> ImportFolderAsync(
-        string folder,
-        string language,
-        CancellationToken cancellationToken = default)
+    string folder,
+    string language,
+    CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(language))
             throw new ArgumentException("A language is required.", nameof(language));
@@ -27,10 +27,19 @@ public sealed class PassageImporter
         if (!Directory.Exists(folder))
             throw new DirectoryNotFoundException(folder);
 
+        // Ensure the database schema exists when running the importer directly.
+        // (Will be executed below before querying existing keys.)
+
         var files = Directory.GetFiles(
             folder, "*.json", SearchOption.AllDirectories);
 
         Array.Sort(files, StringComparer.Ordinal);
+
+        // Ensure the database schema exists when running the importer
+        // directly from the command line (quick local/dev workflow).
+        // If you use EF migrations in your workflow, prefer
+        // Database.MigrateAsync instead and keep migrations in source.
+        await _db.Database.EnsureCreatedAsync(cancellationToken);
 
         var existingKeys = await _db.Passages
             .Where(p => p.ImportKey != null)
@@ -88,12 +97,12 @@ public sealed class PassageImporter
             imported++;
         }
 
-        // Nothing is written until every new file has been read and validated.
+        // Commit all validated passages in one operation.
         await _db.SaveChangesAsync(cancellationToken);
 
         return (imported, skipped);
     }
-
+        
     private static Passage Map(
         PassageJson input,
         string language,
@@ -106,11 +115,29 @@ public sealed class PassageImporter
             throw new InvalidDataException(
                 "At least one question is required.");
 
+        var sourceUrl = string.Empty;
+        if (input.SourceLink.ValueKind == JsonValueKind.String)
+        {
+            sourceUrl = input.SourceLink.GetString() ?? string.Empty;
+        }
+        else if (input.SourceLink.ValueKind == JsonValueKind.Array)
+        {
+            // If array, take first string element if present.
+            foreach (var item in input.SourceLink.EnumerateArray())
+            {
+                if (item.ValueKind == JsonValueKind.String)
+                {
+                    sourceUrl = item.GetString() ?? string.Empty;
+                    break;
+                }
+            }
+        }
+
         var passage = new Passage
         {
             ImportKey = importKey,
             Language = language,
-            SourceUrl = input.SourceLink ?? string.Empty,
+            SourceUrl = sourceUrl,
             Transcription = input.Transcript!,
             Translation = input.Translation!,
             MediaUrl = string.Empty
