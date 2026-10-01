@@ -57,7 +57,7 @@ var app = builder.Build();
 //    app.MapOpenApi();
 //}
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 //app.UseAuthorization();
 

@@ -16,7 +16,14 @@ namespace API_ASPNETCoreWebAPI.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<GetPassageResponseDto?> GetPassageFromDatabaseAsync(string id)
+        public async Task<Passage?> GetPassageEntityAsync(string id)
+        {
+            return await _dbContext.Passages
+                .Include(p => p.Questions)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<GetPassageResponseDto?> GetPassageFromRepositoryAsync(string id)
         {
             // use "(repository) projection" to select one of 'Passage' type, but send 'GetPassageResponseDto' (DTO) type to the controller
             return await _dbContext.Passages
