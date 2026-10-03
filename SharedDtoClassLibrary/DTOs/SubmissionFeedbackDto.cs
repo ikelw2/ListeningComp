@@ -1,4 +1,4 @@
-﻿namespace API_ASPNETCoreWebAPI.DTOs
+namespace SharedDtoClassLibrary.DTOs
 {
     // immutable response DTO for grading feedback
     public record SubmissionFeedbackDto

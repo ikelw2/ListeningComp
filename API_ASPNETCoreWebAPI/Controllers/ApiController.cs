@@ -1,4 +1,4 @@
-using API_ASPNETCoreWebAPI.DTOs;
+using SharedDtoClassLibrary.DTOs;
 using API_ASPNETCoreWebAPI.Interfaces;
 using API_ASPNETCoreWebAPI.Models;
 using API_ASPNETCoreWebAPI.Repository;

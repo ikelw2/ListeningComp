@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using API_ASPNETCoreWebAPI.Data;
 using API_ASPNETCoreWebAPI.Interfaces;
-using API_ASPNETCoreWebAPI.DTOs;
+using SharedDtoClassLibrary.DTOs;
 
 namespace API_ASPNETCoreWebAPI.Repository
 {

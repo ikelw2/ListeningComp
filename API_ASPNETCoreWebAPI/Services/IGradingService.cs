@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using API_ASPNETCoreWebAPI.DTOs;
+using SharedDtoClassLibrary.DTOs;
 
 namespace API_ASPNETCoreWebAPI.Services;
 

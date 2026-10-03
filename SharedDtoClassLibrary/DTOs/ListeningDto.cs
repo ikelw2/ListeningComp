@@ -1,4 +1,4 @@
-﻿namespace API_ASPNETCoreWebAPI.DTOs
+namespace SharedDtoClassLibrary.DTOs
 {
     // response DTO so user can listen to passage
     public record ListeningDto // instead of class, use record to optimize for init-only/immutable value-based data

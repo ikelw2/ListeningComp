@@ -1,4 +1,4 @@
-namespace API_ASPNETCoreWebAPI.DTOs
+namespace SharedDtoClassLibrary.DTOs
 {
     // question properties required for validation & grading
     public record GradingDto

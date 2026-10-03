@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Microsoft.AspNetCore.Mvc.Testing;
 using API_ASPNETCoreWebAPI;
-using API_ASPNETCoreWebAPI.DTOs;
+using SharedDtoClassLibrary.DTOs;
 using API_ASPNETCoreWebAPI.Data;
 using API_ASPNETCoreWebAPI.Models;
 using Microsoft.Extensions.DependencyInjection;

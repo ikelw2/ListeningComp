@@ -21,4 +21,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SharedDtoClassLibrary\SharedDtoClassLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

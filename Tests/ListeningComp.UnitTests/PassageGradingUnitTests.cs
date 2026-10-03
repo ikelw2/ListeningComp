@@ -4,7 +4,7 @@ using Moq;
 using API_ASPNETCoreWebAPI.Interfaces;
 using API_ASPNETCoreWebAPI.Controllers;
 using API_ASPNETCoreWebAPI.Models;
-using API_ASPNETCoreWebAPI.DTOs;
+using SharedDtoClassLibrary.DTOs;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="API_ASPNETCoreWebAPI/API_ASPNETCoreWebAPI.csproj" />
+  <Project Path="FrontEnd_BlazorWebAssemblyStandaloneApp/FrontEnd_BlazorWebAssemblyStandaloneApp.csproj" Id="59c8f06d-e92b-4c8d-944b-59ed5d7fdd0d" />
+  <Project Path="SharedDtoClassLibrary/SharedDtoClassLibrary.csproj" Id="bd6c50f7-769a-4c9e-b130-236f013dd7ef" />
 </Solution>

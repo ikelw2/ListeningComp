@@ -1,4 +1,4 @@
-﻿using API_ASPNETCoreWebAPI.DTOs;
+﻿using SharedDtoClassLibrary.DTOs;
 
 namespace API_ASPNETCoreWebAPI.Interfaces
 {
