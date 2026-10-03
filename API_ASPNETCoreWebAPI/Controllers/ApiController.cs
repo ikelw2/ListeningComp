@@ -25,8 +25,23 @@ public class ApiController : ControllerBase
     }
 
 
+
     //-----------------------------------------------------------------
-    // endpoint 1: GET api/passages/{id}
+    // endpoint 1: GET api/passages/
+    // retrieve title for all passages available, allow user to select one of them for api #2
+    [HttpGet]
+    public async Task<ActionResult<List<TitleListDto>>> GetPassageListAsync()
+    {
+        var list = await _repository.GetAllEntityTitlesAsync();
+        return Ok(list);
+    }
+
+
+
+
+
+    //-----------------------------------------------------------------
+    // endpoint 2: GET api/passages/{id}
     // retrieve passage, associated questions, and answer choices to display them to user for their review
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPassageByIdAsync(string id)
@@ -43,7 +58,7 @@ public class ApiController : ControllerBase
 
 
     //-----------------------------------------------------------------
-    // endpoint 2: POST api/passages/submit
+    // endpoint 3: POST api/passages/submit
     // submit passage Id and answer selection for grading/feedback
     [HttpPost("submit")]
     public async Task<ActionResult<SubmissionFeedbackDto>> PostUserAnswersAsync([FromBody] SubmissionDto submission)

@@ -22,6 +22,21 @@ namespace API_ASPNETCoreWebAPI.Repository
 
 
 
+        public async Task<List<TitleListDto>> GetAllEntityTitlesAsync()
+        {
+            return await _dbContext.Passages
+                .OrderBy(p => p.Title)
+                .Select(p => new TitleListDto
+                {
+                    Id = p.Id,
+                    Title = p.Title
+                }).ToListAsync();
+        }
+
+
+
+
+
         public async Task<ListeningDto?> GetEntityForListeningAsync(string id)
         {
             // queries the Passages table for the row with the given Id and

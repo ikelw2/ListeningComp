@@ -8,6 +8,7 @@ public class Passage
     // Nullable so passages created outside the importer need no import key.
     public string? ImportKey { get; set; }
 
+    public string Title { get; set; } = string.Empty;
     public string Language { get; set; } = string.Empty;
     public string SourceUrl { get; set; } = string.Empty;
     public string MediaUrl { get; set; } = string.Empty;

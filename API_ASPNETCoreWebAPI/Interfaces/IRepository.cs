@@ -7,5 +7,7 @@ namespace API_ASPNETCoreWebAPI.Interfaces
         Task<ListeningDto?> GetEntityForListeningAsync(string id); // for user to listen to a passage
 
         Task<GradingDto?> GetEntityForGradingAsync(string id); // for grading of answers submission
+
+        Task<List<TitleListDto>> GetAllEntityTitlesAsync(); // for selecting passage amongst options
     }
 }
