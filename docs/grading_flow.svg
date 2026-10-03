@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700">
+  <style>
+	.box { fill:#eef2ff; stroke:#4c51bf; stroke-width:2; rx:8; }
+	.label { font: 16px Arial, sans-serif; fill:#1a202c; }
+	.small { font: 13px Arial, sans-serif; fill:#1a202c; }
+	.arrow { stroke:#2d3748; stroke-width:2; fill:none; marker-end:url(#arrowhead); }
+  </style>
+  <defs>
+	<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+	  <polygon points="0 0, 10 3.5, 0 7" fill="#2d3748"/>
+	</marker>
+  </defs>
+
+  <!-- Entities -->
+  <rect x="40" y="40" width="160" height="60" class="box"/>
+  <text x="120" y="70" text-anchor="middle" class="label">Frontend</text>
+  <text x="120" y="90" text-anchor="middle" class="small">(submits answers)</text>
+
+  <rect x="260" y="40" width="220" height="80" class="box"/>
+  <text x="370" y="70" text-anchor="middle" class="label">ApiController</text>
+  <text x="370" y="92" text-anchor="middle" class="small">PostUserAnswersAsync</text>
+
+  <rect x="520" y="40" width="240" height="80" class="box"/>
+  <text x="640" y="70" text-anchor="middle" class="label">GradingService</text>
+  <text x="640" y="92" text-anchor="middle" class="small">GradeAsync</text>
+
+  <rect x="520" y="160" width="240" height="80" class="box"/>
+  <text x="640" y="190" text-anchor="middle" class="label">PassageRepository</text>
+  <text x="640" y="212" text-anchor="middle" class="small">GetEntityByIdForGradingAsync</text>
+
+  <rect x="780" y="110" width="100" height="80" class="box"/>
+  <text x="830" y="145" text-anchor="middle" class="label">AppDbContext</text>
+  <text x="830" y="165" text-anchor="middle" class="small">Passages, Questions</text>
+
+  <!-- Flow arrows -->
+  <path d="M200 70 L260 70" class="arrow"/>
+  <path d="M480 70 L520 70" class="arrow"/>
+  <path d="M640 120 L640 160" class="arrow"/>
+  <path d="M760 200 L780 150" class="arrow"/>
+
+  <!-- Back arrows -->
+  <path d="M780 150 L760 150 L520 150 L480 150 L260 150 L200 150" class="arrow"/>
+  <path d="M480 150 L260 110 L200 110" class="arrow"/>
+
+  <!-- Validation & Scoring box -->
+  <rect x="40" y="220" width="840" height="220" rx="8" fill="#fff8f0" stroke="#b45309"/>
+  <text x="60" y="245" class="label">GradingService internal steps</text>
+  <text x="60" y="270" class="small">1) Load passage questions (minimal fields): Id, Position, CorrectChoice, AnswerChoicesCount</text>
+  <text x="60" y="295" class="small">2) Validation checks:</text>
+  <text x="80" y="320" class="small">- Duplicate answers (by QuestionId) → ArgumentException</text>
+  <text x="80" y="340" class="small">- Unknown QuestionId in submission → ArgumentException</text>
+  <text x="80" y="360" class="small">- SelectedAnswer out-of-range (compared to AnswerChoicesCount) → ArgumentException</text>
+  <text x="60" y="390" class="small">3) Scoring:</text>
+  <text x="80" y="415" class="small">- For each question (ordered by Position):</text>
+  <text x="100" y="440" class="small">• Determine userAnswer (int?)</text>
+  <text x="100" y="460" class="small">• isCorrect = userAnswer.HasValue && userAnswer == CorrectChoice</text>
+  <text x="100" y="480" class="small">• Append QuestionResultDto {QuestionId, UserAnswer, CorrectAnswer, IsCorrect}</text>
+
+  <text x="60" y="515" class="small">Result: SubmissionFeedbackDto { TotalQuestions, CorrectCount, Results[] }</text>
+
+</svg>

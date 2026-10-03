@@ -3,6 +3,7 @@ using API_ASPNETCoreWebAPI.Data;
 using API_ASPNETCoreWebAPI.Interfaces;
 using API_ASPNETCoreWebAPI.Repository;
 using Microsoft.EntityFrameworkCore;
+using API_ASPNETCoreWebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<MyDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(
         builder.Configuration.GetConnectionString("LCompDb")));
 
@@ -20,7 +21,9 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 //builder.Services.AddScoped<PassageImporter>();
 
 // "register our interface" PassageRepository
-builder.Services.AddScoped<IPassageRepository, PassageRepository>();
+builder.Services.AddScoped<IRepository, Repository>();
+// Register grading service
+builder.Services.AddScoped<IGradingService, GradingService>();
 
 var app = builder.Build();
 
@@ -65,3 +68,6 @@ app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();
+
+//// Expose a Program type for WebApplicationFactory in integration tests
+//public partial class Program { }

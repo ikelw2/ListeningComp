@@ -1,0 +1,46 @@
+@startuml
+title Grading & Feedback Flow
+
+actor Frontend as FE
+
+rectangle "ApiController.PostUserAnswersAsync" as Controller_Post
+rectangle "GradingService.GradeAsync" as Grading
+rectangle "IPassageRepository.GetEntityByIdForGradingAsync" as Repo
+database "AppDbContext\n(Passages, Questions)" as DB
+
+FE -> Controller_Post: POST /api/passages/submit\n{PassageId, Answers[]}
+Controller_Post -> Grading: GradeAsync(PassageSubmissionDto)
+Grading -> Repo: GetEntityByIdForGradingAsync(PassageId)
+Repo -> DB: Query passage + question minimal fields\n(Id, Position, CorrectChoice, AnswerChoicesCount)
+Repo --> Grading: PassageForGradingDto { Questions[] }
+
+Grading -> Grading: Validation
+note right
+- duplicate answers check
+- unknown question ids check
+- SelectedAnswer bounds check (uses AnswerChoicesCount)
+end note
+
+Grading -> Grading: Scoring
+note right
+- compare SelectedAnswer to CorrectChoice
+- build QuestionResultDto for each question
+- accumulate CorrectCount, TotalQuestions
+end note
+
+Grading --> Controller_Post: SubmissionFeedbackDto
+Controller_Post --> FE: 200 OK + SubmissionFeedbackDto
+
+note left
+SubmissionFeedbackDto:
+- TotalQuestions
+- CorrectCount
+- Results: List<QuestionResultDto>
+QuestionResultDto:
+- QuestionId
+- UserAnswer (int?)
+- CorrectAnswer (int)
+- IsCorrect (bool)
+end note
+
+@enduml

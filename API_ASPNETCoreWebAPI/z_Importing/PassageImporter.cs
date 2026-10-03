@@ -23,9 +23,9 @@
 
 //public sealed class PassageImporter
 //{
-//    private readonly MyDbContext _db;
+//    private readonly AppDbContext _db;
 
-//    public PassageImporter(MyDbContext db)
+//    public PassageImporter(AppDbContext db)
 //    {
 //        _db = db;
 //    }

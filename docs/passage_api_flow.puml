@@ -1,0 +1,34 @@
+@startuml
+title Passage API: Endpoint Flow
+
+actor Frontend as FE
+
+rectangle "ApiController (GET /api/passages/{id})" as Controller_Get
+rectangle "ApiController (POST /api/passages/submit)" as Controller_Post
+rectangle "IPassageRepository / PassageRepository" as Repo
+rectangle "IGradingService / GradingService" as Service
+database "AppDbContext (Passages, Questions)" as DB
+
+FE -> Controller_Get: GET /api/passages/{id}
+Controller_Get -> Repo: GetEntityByIdForReviewAsync(id)
+Repo -> DB: query Passages + Questions (ordered by Position)
+Repo --> Controller_Get: PassageForReviewDto
+Controller_Get --> FE: 200 OK + PassageForReviewDto
+
+FE -> Controller_Post: POST /api/passages/submit {PassageId, Answers[]}
+Controller_Post -> Service: GradeAsync(PassageSubmissionDto)
+Service -> Repo: GetEntityByIdForGradingAsync(PassageId)
+Repo -> DB: query Passages + Questions (select minimal fields)
+Repo --> Service: PassageForGradingDto
+Service -> Service: validate & score
+Service --> Controller_Post: SubmissionFeedbackDto
+Controller_Post --> FE: 200 OK + SubmissionFeedbackDto
+
+note right of Service
+Validation checks:
+- duplicates
+- unknown question ids
+- SelectedAnswer bounds
+end note
+
+@enduml
