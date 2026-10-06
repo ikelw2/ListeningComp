@@ -47,6 +47,7 @@ namespace API_ASPNETCoreWebAPI.Repository
 
                 .Select(p => new ListeningDto // returns ListeningDto
                 {
+                    Title = p.Title,
                     SourceUrl = p.SourceUrl,
                     MediaUrl = p.MediaUrl,
                     Transcription = p.Transcription,

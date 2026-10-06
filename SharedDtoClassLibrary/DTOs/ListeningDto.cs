@@ -3,6 +3,7 @@ namespace SharedDtoClassLibrary.DTOs
     // response DTO so user can listen to passage
     public record ListeningDto // instead of class, use record to optimize for init-only/immutable value-based data
     {
+        public string Title { get; init; } = string.Empty;
         public string SourceUrl { get; init; } = string.Empty;
         public string MediaUrl { get; init; } = string.Empty;
 
