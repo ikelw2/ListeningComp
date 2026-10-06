@@ -1,0 +1,45 @@
+﻿@using SharedDtoClassLibrary.DTOs
+@inject FrontEnd_BlazorWebAssemblyApp.Services.IPassageService PassageService
+@inject NavigationManager Nav
+
+@page "/"
+
+<PageTitle>Listening Comprehension</PageTitle>
+
+
+
+
+<h1>Sessions</h1>
+
+<ul>
+    @if (titles == null)
+    {
+        <li>
+            Loading...
+        </li>
+    }
+    else
+    {
+        @foreach (var t in titles)
+        {
+            <li>
+                <button @onclick="@(() => Nav.NavigateTo($"/passages/{t.Id}"))">
+                    @t.Title
+                </button>
+            </li>
+        }
+    }
+</ul>
+
+
+
+
+@code 
+{
+    private List<TitleListDto>? titles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        titles = await PassageService.GetTitleListAsync();
+    }
+}

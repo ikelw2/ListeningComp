@@ -1,0 +1,117 @@
+@page "/passages/{Id}"
+@page "/passage/{Id}"
+@using SharedDtoClassLibrary.DTOs
+@using System.Text.Json
+@inject HttpClient Http
+@inject NavigationManager Nav
+
+<h3>Passage</h3>
+
+@if (_loading)
+{
+    <p>Loading passage…</p>
+}
+else if (!string.IsNullOrEmpty(_error))
+{
+    <p class="text-danger">Error: @_error</p>
+}
+else if (_session is not null)
+{
+    <section>
+        <p><strong>Source:</strong> @_session.SourceUrl</p>
+        <p><strong>First transcription line:</strong> @_session.Transcription.FirstOrDefault()</p>
+
+        @if (!string.IsNullOrEmpty(_mediaSrc))
+        {
+            <section aria-label="Audio">
+                <audio controls preload="metadata" src="@_mediaSrc">
+                    Your browser does not support the audio element.
+                </audio>
+            </section>
+        }
+
+        <p><strong>Questions:</strong> @_session.Questions.Count</p>
+    </section>
+}
+
+@code {
+    [Parameter] public string Id { get; set; } = string.Empty;
+
+    private ListeningDto? _session;
+    private bool _loading;
+    private string? _error;
+    private string? _mediaSrc;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        _loading = true;
+        _error = null;
+        _session = null;
+        _mediaSrc = null;
+
+        try
+        {
+            var resp = await Http.GetAsync($"api/passages/{Id}");
+            var text = await resp.Content.ReadAsStringAsync();
+
+            if (!resp.IsSuccessStatusCode)
+            {
+                _error = $"API returned {(int)resp.StatusCode}: {resp.ReasonPhrase}";
+                Console.WriteLine("RAW RESPONSE BODY: " + text);
+                return;
+            }
+
+            var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            try
+            {
+                _session = JsonSerializer.Deserialize<ListeningDto>(text, opts);
+            }
+            catch (JsonException jex)
+            {
+                _error = "Json error: " + jex.Message;
+                Console.WriteLine("JSON EXCEPTION: " + jex);
+                Console.WriteLine("RAW RESPONSE BODY: " + text);
+                return;
+            }
+
+            if (_session is null)
+            {
+                _error = "API returned no listening session.";
+                return;
+            }
+
+            // Resolve media source: if absolute http(s) use as-is, otherwise assume it's served from client wwwroot/media
+            var media = _session.MediaUrl ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(media))
+            {
+                if (Uri.TryCreate(media, UriKind.Absolute, out var m) && (m.Scheme == Uri.UriSchemeHttp || m.Scheme == Uri.UriSchemeHttps))
+                {
+                    _mediaSrc = media;
+                }
+                else
+                {
+                    // ensure it points to /media/...
+                    var trimmed = media.TrimStart('/');
+                    if (!trimmed.StartsWith("media/", StringComparison.OrdinalIgnoreCase))
+                        trimmed = "media/" + trimmed;
+
+                    // use relative URL so the browser requests it from the Blazor host
+                    _mediaSrc = "/" + trimmed;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

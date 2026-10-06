@@ -30,7 +30,7 @@ public class ApiController : ControllerBase
     // endpoint 1: GET api/passages/
     // retrieve title for all passages available, allow user to select one of them for api #2
     [HttpGet]
-    public async Task<ActionResult<List<TitleListDto>>> GetPassageListAsync()
+    public async Task<ActionResult<List<TitleListDto>>> GetTitleListAsync()
     {
         var list = await _repository.GetAllEntityTitlesAsync();
         return Ok(list);
@@ -46,7 +46,7 @@ public class ApiController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPassageByIdAsync(string id)
     {
-        var response = await _repository.GetEntityForListeningAsync(id); // returns DTO-equivalent type of Passage
+        var response = await _repository.GetEntityForListeningAsync(id); // returns ListeningDto type
 
         if (response == null)
         {

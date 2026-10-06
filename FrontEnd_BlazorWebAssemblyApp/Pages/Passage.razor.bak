@@ -1,0 +1,113 @@
+﻿
+@page "/passage/{Id}"
+@page "/passages/{SessionId}"
+@using SharedDtoClassLibrary.DTOs
+@using System.Net.Http.Json
+@using System.Text.Json
+@inject FrontEnd_BlazorWebAssemblyApp.Services.IPassageService PassageService
+@inject HttpClient Http
+
+<h3>Passage (minimal)</h3>
+
+@if (_loading)
+{
+    <p>Loading...</p>
+}
+else if (_error is not null)
+{
+    <p style="color:red">Error: @_error</p>
+}
+else if (_session is not null)
+{
+    <div>
+        <p><strong>SourceUrl:</strong> @_session.SourceUrl</p>
+        <p><strong>Transcription:</strong> @_session.Transcription.FirstOrDefault()</p>
+        <p><strong>Questions:</strong> @_session.Questions.Count</p>
+    </div>
+}
+
+@code {
+    // support legacy route parameter name used by Listening.razor
+    [Parameter] public string Id { get; set; } = string.Empty;
+    [Parameter] public string SessionId { get => Id; set => Id = value; }
+
+    private ListeningDto? _session;
+    private bool _loading;
+    private string? _error;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadAsync();
+    }
+
+    // inside your @code block: temporary debug loader
+    private async Task LoadAsync()
+    {
+        _loading = true;
+        _error = null;
+        _session = null;
+
+        try
+        {
+            var resp = await Http.GetAsync($"api/passages/{Id}");
+            var text = await resp.Content.ReadAsStringAsync();
+
+            // show raw response for debugging
+            Console.WriteLine("RAW RESPONSE STATUS: " + (int)resp.StatusCode);
+            Console.WriteLine("RAW RESPONSE BODY: " + text);
+
+            if (!resp.IsSuccessStatusCode)
+            {
+                _error = $"API returned {(int)resp.StatusCode}: {resp.ReasonPhrase}";
+                return;
+            }
+
+            // Attempt case-insensitive deserialization (common mismatch when server uses camelCase)
+            var opts = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            _session = System.Text.Json.JsonSerializer.Deserialize<ListeningDto>(text, opts);
+
+            if (_session is null)
+            {
+                _error = "Deserialization returned null.";
+                return;
+            }
+        }
+        catch (System.Text.Json.JsonException jex)
+        {
+            _error = "Json error: " + jex.Message;
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private async Task oldLoadAsync()
+    {
+        _loading = true;
+        _error = null;
+        _session = null;
+
+        try
+        {
+            _session = await PassageService.GetListeningAsync(Id);
+            if (_session is null)
+            {
+                _error = "API returned no session for that id.";
+            }
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}
+

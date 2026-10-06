@@ -7,6 +7,19 @@ using API_ASPNETCoreWebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// allow cors from this address
+// Allow the Blazor dev server origins during development. Update the origins if your Blazor dev server uses different URLs/ports.
+var blazorOriginUrls = new[] { "http://localhost:5109", "https://localhost:7109" };
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("BlazorAppPolicy", policy =>
+    {
+        policy.WithOrigins(blazorOriginUrls)
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -24,6 +37,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IRepository, Repository>();
 // Register grading service
 builder.Services.AddScoped<IGradingService, GradingService>();
+
 
 var app = builder.Build();
 
@@ -59,13 +73,21 @@ var app = builder.Build();
 //{
 //    app.MapOpenApi();
 //}
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage(); // This outputs rich error details to the client
+}
 
 app.UseHttpsRedirection();
 
-//app.UseAuthorization();
+
+app.UseCors("BlazorAppPolicy");
+app.UseAuthorization(); // commented out earlier
+
+app.MapControllers();
 
 app.UseStaticFiles();
-app.MapControllers();
+
 
 app.Run();
 
