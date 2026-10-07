@@ -1,6 +1,7 @@
 ﻿@using SharedDtoClassLibrary.DTOs
 @inject FrontEnd_BlazorWebAssemblyApp.Services.IPassageService PassageService
 @inject NavigationManager Nav
+@using FrontEnd_BlazorWebAssemblyApp.Shared
 
 @page "/"
 
@@ -9,7 +10,7 @@
 
 
 
-<h1>Sessions</h1>
+<h1>Select a passage</h1>
 
 <ul>
     @if (titles == null)
@@ -23,7 +24,7 @@
         @foreach (var t in titles)
         {
             <li>
-                <button @onclick="@(() => Nav.NavigateTo($"/passages/{t.Id}"))">
+                <button @onclick="@(() => NavigateToPassage(t.Id, t.Title))">
                     @t.Title
                 </button>
             </li>
@@ -37,9 +38,21 @@
 @code 
 {
     private List<TitleListDto>? titles;
+    [CascadingParameter] FrontEnd_BlazorWebAssemblyApp.Shared.PageState? PageState { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         titles = await PassageService.GetTitleListAsync();
+    }
+
+    private void NavigateToPassage(string id, string title)
+    {
+        // set the shared PageState title so layout shows it before navigation completes
+        if (PageState is not null)
+        {
+            PageState.Title = $"Passage {title}";
+        }
+
+        Nav.NavigateTo($"/passages/{id}");
     }
 }

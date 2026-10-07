@@ -1,11 +1,17 @@
 @page "/passages/{Id}"
 @page "/passage/{Id}"
+@code {
+    // color variables for this page (can be adjusted or replaced by CSS variables)
+    private readonly string _colorPrimary = "#FAFAFA"; // background (light mode)
+    private readonly string _colorSecondary = "#121212"; // text (light mode)
+    private readonly string _colorTertiary = "#BDBDBD"; // translation (light mode)
+}
 @using SharedDtoClassLibrary.DTOs
 @using System.Text.Json
+@using System.Text.RegularExpressions
+@using System.Net
 @inject HttpClient Http
 @inject NavigationManager Nav
-
-<h3>Passage @(_session?.Title)</h3>
 
 @if (_loading)
 {
@@ -17,24 +23,31 @@ else if (!string.IsNullOrEmpty(_error))
 }
 else if (_session is not null)
 {
-    <section>
-        @* Audio player (near top) *@
-        @if (!string.IsNullOrEmpty(_mediaSrc))
-        {
-            <section aria-label="Audio" style="margin-bottom:1rem;">
-                <audio controls preload="metadata" src="@_mediaSrc">
-                    Your browser does not support the audio element.
-                </audio>
-            </section>
-        }
+    @* Music toggle and questions toggle buttons placed before the media (same line) *@
+    <div style="margin-top:0.5rem; margin-bottom:0.5rem; display:flex; gap:0.5rem; align-items:center;">
+        <button class="btn btn-music" @onclick="ToggleMedia">&#9835;</button>
+        <button class="btn btn-questions" @onclick="ToggleQuestions">?</button>
+    </div>
 
-        @* Questions with radio options *@
-        <section aria-label="Questions">
+    @* Audio player (near top) *@
+    @if (!string.IsNullOrEmpty(_mediaSrc) && _showMedia)
+    {
+        <section aria-label="Audio" style="margin-bottom:1rem;" class="section-gutter media-gutter">
+            <audio controls preload="metadata" src="@_mediaSrc">
+                Your browser does not support the audio element.
+            </audio>
+        </section>
+    }
+
+    @* Questions with radio options (can be toggled) *@
+    @if (_showQuestions)
+    {
+        <section aria-label="Questions" class="section-gutter">
             @for (var questionIndex = 0; questionIndex < _session.Questions.Count; questionIndex++)
             {
                 var q = questionIndex;
                 var question = _session.Questions[q];
-                <fieldset style="margin-bottom:1rem;">
+                <fieldset class="no-border">
                     <legend>@(q + 1). @question.QuestionText</legend>
                     @for (var answerIndex = 0; answerIndex < question.AnswerChoices.Count; answerIndex++)
                     {
@@ -42,50 +55,56 @@ else if (_session is not null)
                         var id = $"radio_{q}_{a}";
                         <div style="margin:4px 0;">
                             <input type="radio" id="@id" name="@($"q_{q}")" value="@a"
-                                   checked="@(_selectedAnswers.Length > q && _selectedAnswers[q] == a)"
-                                   @onchange="() => SelectAnswer(q, a)" />
-                            <label for="@id">@question.AnswerChoices[a]</label>
+                                    checked="@(_selectedAnswers.Length > q && _selectedAnswers[q] == a)"
+                                    @onchange="() => SelectAnswer(q, a)"
+                                    disabled="@_showCorrectAnswers" />
+                            <label for="@id" style="text-decoration:@((_showCorrectAnswers && _correctChoicesByPosition != null && _correctChoicesByPosition.Length > q && _correctChoicesByPosition[q] == a) ? "underline" : "none")">@question.AnswerChoices[a]</label>
                         </div>
                     }
                 </fieldset>
             }
-        </section>
 
-        @* Toggle button to show/hide text (transcription/translation and source) *@
-        <div style="margin-top:1rem; margin-bottom:0.5rem;">
-            <button class="btn btn-secondary" @onclick="ToggleText">Text</button>
-        </div>
-
-        @if (_showText)
-        {
-            <section id="textSection" style="margin-top:0.5rem;">
-                @* Transcription / Translation two-column table *@
-                <div style="overflow:auto;">
-                    <table style="width:95%; border-collapse:collapse; margin-bottom:1rem;">
-                        @for (var i = 0; i < _session.Transcription.Count; i++)
-                        {
-                            <tr style="border-bottom:1px solid #ddd;">
-                                <td style="width:50%; padding:8px; vertical-align:top;">@_session.Transcription[i]</td>
-                                <td style="width:50%; padding:8px; vertical-align:top;">@_session.Translation[i]</td>
-                            </tr>
-                        }
-                    </table>
-                </div>
-
-                @* Source toggle button placed at bottom of the text section *@
-                <div style="margin-top:1rem; margin-bottom:0.5rem;">
-                    <button class="btn btn-secondary" @onclick="ToggleSource">Source</button>
-                </div>
-
-                @if (_showSource)
+            @* Controls row: Text toggle and Answers button at bottom of questions; score text inline *@
+            <div style="margin-top:0.5rem; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.5rem;">
+                <button class="btn btn-text" @onclick="ToggleText">&#9776;</button>
+                <button class="btn btn-secondary" @onclick="ToggleAnswersAsync" style="background-color:var(--answer-color); color:#ffffff; border-color:transparent;">&#10004;</button>
+                @if (!string.IsNullOrEmpty(_scoreText))
                 {
-                    <div style="margin-top:0.5rem;">
-                        <p><a href="@_session.SourceUrl" target="_blank" rel="noopener noreferrer">@_session.SourceUrl</a></p>
-                    </div>
+                    <span>@_scoreText (@("reload page to clear this message"))</span>
                 }
-            </section>
-        }
-    </section>
+            </div>
+        </section>
+    }
+
+    @if (_showText)
+    {
+        <section id="textSection" style="margin-top:0.5rem;" class="section-gutter text-gutter">
+            @* Transcription / Translation two-column table *@
+            <div style="overflow:auto;">
+                <table style="width:95%; border-collapse:collapse; margin-bottom:1rem;">
+                    @for (var i = 0; i < _session.Transcription.Count; i++)
+                    {
+                        <tr class="trans-row">
+                            <td style="width:50%; padding:8px; vertical-align:top;">@StripHtml(_session.Transcription[i])</td>
+                            <td class="translation" style="width:50%; padding:8px; vertical-align:top;">@StripHtml(_session.Translation[i])</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            @* Source toggle (button only) inside the transcript/translation section at the very bottom *@
+            <div style="margin-top:1rem; margin-bottom:0.5rem; display:flex; gap:0.75rem; align-items:center;">
+                <button class="btn btn-secondary" @onclick="ToggleSource" style="background-color:#C0C0C0; color:#000000; border-color:transparent;">&#9888;</button>
+            </div>
+        </section>
+    }
+    @* Source link placed immediately beneath the transcription/translation section (outside of it) *@
+    @if (_showSource)
+    {
+        <div style="margin-top:0.5rem; margin-bottom:0.5rem;" class="section-gutter source-gutter">
+            <p><a href="@_session.SourceUrl" target="_blank" rel="noopener noreferrer">@_session.SourceUrl</a></p>
+        </div>
+    }
 }
 
 @code {
@@ -98,6 +117,12 @@ else if (_session is not null)
     private int?[] _selectedAnswers = Array.Empty<int?>();
     private bool _showText;
     private bool _showSource;
+    private bool _showMedia = false; // media hidden by default
+    private bool _showQuestions = false; // questions hidden by default
+    private bool _showCorrectAnswers;
+    private int[]? _correctChoicesByPosition;
+    private string? _scoreText;
+    [CascadingParameter] FrontEnd_BlazorWebAssemblyApp.Shared.PageState? PageState { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -123,7 +148,7 @@ else if (_session is not null)
                 return;
             }
 
-            var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; // required to prevent JSON load error
             try
             {
                 _session = JsonSerializer.Deserialize<ListeningDto>(text, opts);
@@ -140,6 +165,12 @@ else if (_session is not null)
             {
                 _error = "API returned no listening session.";
                 return;
+            }
+
+            // update page title in layout via PageState cascading parameter
+            if (PageState is not null)
+            {
+                PageState.Title = $"Passage {_session.Title}";
             }
 
             // initialize selected answers array
@@ -189,5 +220,70 @@ else if (_session is not null)
     private void ToggleSource()
     {
         _showSource = !_showSource;
+    }
+
+    private void ToggleQuestions()
+    {
+        _showQuestions = !_showQuestions;
+    }
+
+    private void ToggleMedia()
+    {
+        _showMedia = !_showMedia;
+    }
+
+    private async Task ToggleAnswersAsync()
+    {
+        // If we haven't fetched grading info yet, fetch it
+        if (_correctChoicesByPosition == null)
+        {
+            try
+            {
+                var grading = await Http.GetFromJsonAsync<GradingDto>($"api/passages/{Id}/grading");
+                if (grading != null)
+                {
+                    // build array indexed by Position
+                    var maxPos = grading.Questions.Any() ? grading.Questions.Max(q => q.Position) : -1;
+                    var size = Math.Max(maxPos + 1, _session?.Questions.Count ?? 0);
+                    _correctChoicesByPosition = new int[size];
+                    foreach (var q in grading.Questions)
+                    {
+                        if (q.Position >= 0 && q.Position < size)
+                            _correctChoicesByPosition[q.Position] = q.CorrectChoice;
+                    }
+
+                    // compute score based on current selections
+                    var total = grading.Questions.Count;
+                    var correct = 0;
+                    for (int i = 0; i < total; i++)
+                    {
+                        var user = (_selectedAnswers.Length > i) ? _selectedAnswers[i] : null;
+                        var correctChoice = (i < _correctChoicesByPosition.Length) ? _correctChoicesByPosition[i] : -1;
+                        if (user.HasValue && user.Value == correctChoice) correct++;
+                    }
+
+                    _scoreText = $"You scored {correct} out of {total}";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to fetch grading info: " + ex.Message);
+                _scoreText = "Unable to fetch answers";
+            }
+        }
+
+        // Toggle underline display; score text remains
+        _showCorrectAnswers = !_showCorrectAnswers;
+    }
+
+    private static string StripHtml(string? input)
+    {
+        if (string.IsNullOrEmpty(input)) return string.Empty;
+
+        // Remove tags
+        var noTags = Regex.Replace(input, "<.*?>", string.Empty);
+
+        // Decode any HTML entities (e.g., &amp; -> &)
+        return WebUtility.HtmlDecode(noTags);
     }
 }

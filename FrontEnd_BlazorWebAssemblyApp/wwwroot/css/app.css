@@ -2,6 +2,188 @@
     outline: 1px solid #26b050;
 }
 
+/* Theme and font-size controls */
+:root {
+    --content-font-size: 16px;
+}
+
+.app-wrapper.dark-mode {
+    background-color: #111;
+    color: #eee;
+}
+
+.content {
+    /* font-size will be set inline from MainLayout for immediate effect */
+}
+
+/* Headings inherit the app font size so they scale with the slider */
+h1, h2, h3 {
+    font-size: inherit;
+    font-weight: 600;
+}
+
+/* Remove default body margin so dark background touches edges */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+
+.app-wrapper {
+    min-height: 100vh;
+    /* CSS variables for theme-dependent colors */
+    /* color mapping: --color-primary = background, --color-secondary = text, --color-tertiary = translation text */
+    --color-primary: #FAFAFA;
+    --color-secondary: #121212;
+    --color-tertiary: #BDBDBD;
+    --bg-color: var(--color-primary);
+    --text-color: var(--color-secondary);
+    --translation-color: var(--color-tertiary);
+    --border-color: #ddd;
+    --answer-color: #3464B2; /* default (light mode) */
+    --gutter-questions: var(--answer-color);
+    --gutter-text: #F000B8;
+    --gutter-source: #C0C0C0;
+    --gutter-media: #207f5c;
+    /* font scaling variable (set inline on app-wrapper): --app-font-size */
+    font-size: var(--app-font-size, 16px);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.app-wrapper.dark-mode {
+    /* dark-mode mapping: primary=background, secondary=text, tertiary=translation */
+    --color-primary: #121212;
+    --color-secondary: #BDBDBD;
+    --color-tertiary: #424242;
+    --bg-color: var(--color-primary);
+    --text-color: var(--color-secondary);
+    --translation-color: var(--color-tertiary);
+    --border-color: #444;
+    --answer-color: #24467d; /* dark mode answer color */
+    --gutter-questions: var(--answer-color);
+    --gutter-text: #90006e;
+    --gutter-source: #C0C0C0;
+    --gutter-media: #207f5c;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.app-header {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+}
+
+.content {
+    /* content inherits font-size from .app-wrapper via var(--app-font-size) */
+}
+
+/* Make form controls and interactive elements inherit the app font size */
+button, input, select, textarea, label {
+    font-size: inherit;
+}
+
+/* Make audio control size responsive to font size and avoid overlap by reserving space */
+audio {
+    width: 100%;
+    /* approximate height based on font size */
+    height: calc(var(--app-font-size, 16px) * 2.4);
+    margin-bottom: calc(var(--app-font-size, 16px) * 0.5);
+}
+
+/* Increase radio/checkbox dimensions based on app font size */
+input[type="radio"], input[type="checkbox"] {
+    width: calc(var(--app-font-size, 16px) * 0.9);
+    height: calc(var(--app-font-size, 16px) * 0.9);
+    vertical-align: middle;
+}
+
+/* Match the radio/checkbox accent color to the answer button color */
+input[type="radio"], input[type="checkbox"] {
+    accent-color: var(--answer-color);
+}
+
+/* Make the range slider visually scale */
+input[type="range"] {
+    height: calc(var(--app-font-size, 16px) * 0.9);
+}
+
+.app-wrapper .translation {
+    /* Ensure translation cells use the dedicated translation color and override inherited text color */
+    color: var(--translation-color, #BDBDBD) !important;
+}
+
+/* Utility to remove fieldset borders around questions */
+.no-border {
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Music toggle button styling (green background) */
+.btn-music {
+    background-color: #207f5c;
+    color: #ffffff;
+    border-color: transparent;
+}
+
+/* Questions toggle button: light mode green, dark mode darker green */
+.btn-questions {
+    background-color: #3464B2; /* light mode */
+    color: #ffffff;
+    border-color: transparent;
+}
+
+.app-wrapper.dark-mode .btn-questions {
+    background-color: #24467d; /* dark mode */
+}
+
+/* Text (transcription/translation) toggle button colors */
+.btn-text {
+    background-color: #F000B8; /* light mode */
+    color: #ffffff;
+    border-color: transparent;
+}
+
+.app-wrapper.dark-mode .btn-text {
+    background-color: #90006e; /* dark mode */
+}
+
+/* Transcription/translation row separator should use the tertiary color */
+.trans-row td {
+    border-bottom: 1px solid var(--translation-color);
+}
+
+/* Section gutters: left padding with colored strip */
+.section-gutter {
+    padding-left: 0.5rem; /* reserve space for colored gutter */
+    position: relative;
+}
+.section-gutter::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: var(--gutter-questions);
+}
+
+.section-gutter.text-gutter::before {
+    background: var(--gutter-text);
+}
+
+.section-gutter.source-gutter::before {
+    background: var(--gutter-source);
+}
+
+/* Media gutter variant */
+.section-gutter.media-gutter::before {
+    background: var(--gutter-media);
+}
+
+
 .invalid {
     outline: 1px solid red;
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Listening Comprehension</title>
+    <title>LComp</title>
     <base href="/" />
     <link rel="preload" id="webassembly" />
     <link rel="stylesheet" href="css/app.css" />
@@ -14,19 +14,7 @@
 </head>
 
 <body>
-    <header> <h1>Listening Comprehension</h1> </header>
-
-
-
-    <!--<span class="singleLine">
-        <div id="firstline"></div>
-        <div id="textZoom" class="slider"><input type="range" min="4" max="40" value="12" id="font-size-slider" step="1" />&nbsp;&nbsp;<button id="darkModeButton">&#9680;</button></div>
-    </span>
-
-    <p id="s_admin">&nbsp;<button onclick="ExpandDetail('s_media')" id="mediaButton"><b>&#9835;</b></button> <button onclick="ExpandDetail('s_questions')" id="questionButton"><b>?</b></button> <button onclick="shareQs()" id="shareQsButton"><span style="font-size: .875em; margin-right: .125em; position: relative; top: -.25em; left: -.125em">📄<span style="position: absolute; top: .25em; left: .25em">📄</span></span></button> </p>
-    <p id="s_media"></p>-->
-
-
+    <!-- Header moved into MainLayout.razor so it can respond to theme and layout controls -->
 
     <div id="app">
         <svg class="loading-progress">
@@ -42,10 +30,7 @@
         <span class="dismiss">🗙</span>
     </div>
 
-
-
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
-    <!--<script src="daily.js"></script>-->
 </body>
 
 </html>

@@ -58,6 +58,23 @@ public class ApiController : ControllerBase
 
 
     //-----------------------------------------------------------------
+    // endpoint: GET api/passages/{id}/grading
+    // expose grading information (QuestionId, Position, CorrectChoice) for client-side review
+    [HttpGet("{id}/grading")]
+    public async Task<IActionResult> GetPassageGradingAsync(string id)
+    {
+        var grading = await _repository.GetEntityForGradingAsync(id);
+
+        if (grading == null)
+        {
+            return NotFound(new { message = $"Passage ID '{id}' was not found for grading." });
+        }
+
+        return Ok(grading);
+    }
+
+
+    //-----------------------------------------------------------------
     // endpoint 3: POST api/passages/submit
     // submit passage Id and answer selection for grading/feedback
     [HttpPost("submit")]

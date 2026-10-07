@@ -1,3 +1,58 @@
 ﻿@inherits LayoutComponentBase
+@implements IDisposable
 
-@Body
+@using FrontEnd_BlazorWebAssemblyApp.Shared
+
+@code {
+    private int _fontSize = 14; // px (approx 14pt)
+    private bool _isDark;
+    private PageState? _subscribedPageState;
+    [CascadingParameter] public PageState? PageState { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (!ReferenceEquals(_subscribedPageState, PageState))
+        {
+            if (_subscribedPageState is not null)
+            {
+                _subscribedPageState.OnChange -= HandlePageStateChanged;
+            }
+
+            _subscribedPageState = PageState;
+
+            if (_subscribedPageState is not null)
+            {
+                _subscribedPageState.OnChange += HandlePageStateChanged;
+            }
+        }
+    }
+
+    private void HandlePageStateChanged()
+    {
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        if (_subscribedPageState is not null)
+        {
+            _subscribedPageState.OnChange -= HandlePageStateChanged;
+        }
+    }
+}
+
+<div class="app-wrapper @( _isDark ? "dark-mode" : string.Empty )" style="@($"--app-font-size:{_fontSize}px;")">
+    <!-- Page title is controlled per-page; header title removed as requested -->
+    <header class="app-header" aria-hidden="true"></header>
+
+    <div class="layout-controls" style="padding:0.5rem; display:flex; gap:0.75rem; align-items:center;">
+        <label>@(PageState?.Title ?? string.Empty)</label>
+        <input type="range" min="6" max="28" @bind="_fontSize" @bind:event="oninput" style="flex:1; min-width:8rem;" />
+        <!-- font size display removed per user request -->
+        <button class="btn btn-outline-secondary" style="margin-left:1rem; background-color:#3464B2; color:#ffffff; border-color:transparent;" @onclick="() => _isDark = !_isDark">&#9680;</button>
+    </div>
+
+    <main class="content" style="padding:1rem;">
+        @Body
+    </main>
+</div>
